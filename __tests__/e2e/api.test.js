@@ -9,7 +9,37 @@ describe('API E2E', () => {
   describe('POST: /eth/balance', () => {
 
   });
-  describe('Case 1 : Empty Response', () => {
+
+  describe('Case 1 : Errors', () => {
+    afterAll(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should return 404 when url is wrong', async () => {
+      await request(app)
+        .post('/eth/balance/url')
+        .send({ })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(404);
+    });
+
+    it('should return 400 when an error happens', async () => {
+      CurrencyExternalService.getEthUsdCurrency = jest.fn().mockImplementation(() => {
+        throw new Error();
+      });
+
+      await request(app)
+        .post('/eth/balance')
+        .send({
+          addresses: ['0x03d30736fcc8f0a1630b58cebbe1553f41d51b05'],
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400);
+    });
+  });
+  describe('Case 2 : Empty Response', () => {
     beforeAll(async () => {
       EthereumNodeExternalService.getBalance = jest.fn().mockResolvedValue({});
       CurrencyExternalService.getEthUsdCurrency = jest.fn().mockResolvedValue({});
@@ -32,7 +62,7 @@ describe('API E2E', () => {
     });
   });
 
-  describe('Case 2 : Wrong Address', () => {
+  describe('Case 3 : Wrong Address', () => {
     beforeAll(async () => {
       EthereumNodeExternalService.getBalance = jest.fn().mockResolvedValue({});
       CurrencyExternalService.getEthUsdCurrency = jest.fn().mockResolvedValue({});
@@ -55,7 +85,7 @@ describe('API E2E', () => {
     });
   });
 
-  describe('Case 3 : Correct Address', () => {
+  describe('Case 4 : Correct Address', () => {
     const testAddress1 = {
       address: '0x03d30736fcc8f0a1630b58cebbe1553f41d51b05',
       balance: 12,
