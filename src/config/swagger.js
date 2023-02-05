@@ -12,7 +12,7 @@ const swaggerDef = {
   },
   servers: [
     {
-      url: `127.0.0.1:${Config.serverPort}`,
+      url: '/',
     },
   ],
 };
