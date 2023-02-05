@@ -1,3 +1,5 @@
+import Config from './index';
+
 const swaggerDef = {
   openapi: '3.0.0',
   info: {
