@@ -1,11 +1,12 @@
 
 # Ethereum Balance Example :chart:
 [![Node.js CI](https://github.com/safakoks/ethereum-balance-example/actions/workflows/node.js.yml/badge.svg)](https://github.com/safakoks/ethereum-balance-example/actions/workflows/node.js.yml)
-![Known Vulnerabilities](https://snyk.io/test/github/safakoks/ethereum-balance-example/badge.svg)
 [![codecov](https://codecov.io/github/safakoks/ethereum-balance-example/branch/main/graph/badge.svg?token=D187V4SU8E)](https://codecov.io/github/safakoks/ethereum-balance-example)
+---
+[Swagger Demo](https://etehereum-balance-example.cyclic.app/swagger/#/Eth/post_eth_balance)
 ## Introduction :scroll:
 
-TBE
+This repo includes an example API to get Ethereum Balance by using Addresses. The API also checks if the given addresses are valid Ethereum addresses.
 
 ### Requirements :spiral_notepad:
   - Node Version : v14.x
@@ -79,5 +80,43 @@ npm run start
 or
 ```bash
 yarn run start
+```
+
+
+#### Example
+
+POST : /eth/balance
+
+Request Body
+```json
+{
+  "addresses": [
+    "wrong-address", 
+    "0x03d30736fcc8f0a1630b58cebbe1553f41d51b05", 
+    "another-wron-address", 
+    "0x64839271e7713252b7a17e92C4d76fCD8216A22f"
+  ]
+}
+```
+Response Body
+```json
+{
+  "sorted_addresses": [
+    {
+      "address": "0x03d30736fcc8f0a1630b58cebbe1553f41d51b05",
+      "eth_balance": 0.0719578297526391,
+      "usd_balance": 120.03789285845998
+    },
+    {
+      "address": "0x64839271e7713252b7a17e92C4d76fCD8216A22f",
+      "eth_balance": 0.060331436489413214,
+      "usd_balance": 100.64309240854445
+    }
+  ],
+  "wrong_addresses": [
+    "wrong-address",
+    "another-wron-address"
+  ]
+}
 ```
   
